@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 	"unicode"
 )
@@ -23,7 +24,7 @@ import (
 //В случае если была передана некорректная строка, функция должна возвращать ошибку. Написать unit-тесты.
 
 func main() {
-	myHandlerStr("hel9o a4sd4")
+	myHandlerStr("qwe\\4\\5")
 }
 
 func myHandlerStr(str string) string {
@@ -38,7 +39,8 @@ func myHandlerStr(str string) string {
 		if isDigit {
 			bufNumbers = append(bufNumbers, runes[i])
 			if i == 0 {
-				//err
+				fmt.Println("(некорректная строка)\n")
+				os.Exit(1)
 			}
 		}
 		if !isDigit || i == len(runes)-1 {
