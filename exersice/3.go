@@ -18,13 +18,13 @@ type Line struct {
 
 func main() {
 	// Определение аргументов командной строки
-	column := flag.Int("k", 0, "Column to sort by (default is 0).")
-	numeric := flag.Bool("n", false, "Sort by numeric value.")
-	reverse := flag.Bool("r", false, "Sort in reverse order.")
-	unique := flag.Bool("u", false, "Do not output duplicate lines.")
-	month := flag.Bool("M", false, "Sort by month name.")
-	ignoreTrailingSpaces := flag.Bool("b", false, "Ignore trailing spaces.")
-	check := flag.Bool("c", false, "Check if the file is sorted.")
+	column := flag.Int("k", 0, "Column to sort by (default is 0).") // старт сортировки с такого-то столбца, по умолчанию с 0
+	numeric := flag.Bool("n", false, "Sort by numeric value.") // ищет числовые значения, и от них начинает сортировать
+	reverse := flag.Bool("r", false, "Sort in reverse order.") // реверсивная сортировка
+	unique := flag.Bool("u", false, "Do not output duplicate lines.") // удаляет дубликаты строк
+	month := flag.Bool("M", false, "Sort by month name.") // сортировка по месяцу
+	ignoreTrailingSpaces := flag.Bool("b", false, "Ignore trailing spaces.") // игнорирует начальные пробелы
+	check := flag.Bool("c", false, "Check if the file is sorted.") // просто проверка, отсортирован ли текущий файл
 	humanNumeric := flag.Bool("h", false, "Sort by numeric value with suffixes.")
 
 	flag.Parse()
@@ -74,7 +74,7 @@ func readLines(filename string, ignoreTrailingSpaces bool) ([]string, error) {
 	for scanner.Scan() {
 		line := scanner.Text()
 		if ignoreTrailingSpaces {
-			line = strings.TrimRight(line, " ")
+			line = strings.TrimLeft(line, " ")
 		}
 		lines = append(lines, line)
 	}
@@ -99,9 +99,11 @@ func writeLines(lines []string, filename string) error {
 // Сортировка строк
 func sortLines(lines []string, column int, numeric, reverse, unique, month, humanNumeric bool) []string {
 	var parsedLines []Line
+	// формируем parsedLines в line сордержиться сама строка и ключ
 	for _, line := range lines {
 		parsedLines = append(parsedLines, Line{Content: line, Key: getKey(line, column, numeric, month, humanNumeric)})
 	}
+
 
 	if reverse {
 		sort.Slice(parsedLines, func(i, j int) bool {
@@ -118,6 +120,7 @@ func sortLines(lines []string, column int, numeric, reverse, unique, month, huma
 	}
 
 	var sortedLines []string
+
 	for _, line := range parsedLines {
 		sortedLines = append(sortedLines, line.Content)
 	}
