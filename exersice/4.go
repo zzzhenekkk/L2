@@ -19,6 +19,7 @@ func sortString(s string) string {
 func findAnagrams(words []string) map[string][]string {
 	// Приведение всех слов к нижнему регистру и создание карты для группировки анаграмм
 	anagrams := make(map[string][]string)
+
 	wordMap := make(map[string]string) // для отслеживания первого встреченного слова
 
 	for _, word := range words {
@@ -44,7 +45,7 @@ func findAnagrams(words []string) map[string][]string {
 }
 
 func main() {
-	words := []string{"пятак", "пятка", "тяпка", "листок", "слиток", "столик", "слово", "волос"}
+	words := []string{"пятак", "пятка", "тяпка", "листок", "слиток", "столик", "слово", "волос", "женя"}
 	anagrams := findAnagrams(words)
 
 	for key, group := range anagrams {
